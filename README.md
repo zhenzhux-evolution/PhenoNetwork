@@ -2,7 +2,7 @@
 **Zhen-Zhu Xiao** 2026-10-28 17:15:02
 
 # Downloaded data
-Phenotype and genotype data for Brassica rapa: https://www.nature.com/articles/s41467-024-46841-4#Sec24, https://www.nature.com/articles/s41467-024-49383-x#data-availability, (NCBI sequence reads: https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1105729) and https://onlinelibrary.wiley.com/doi/full/10.1111/mec.17811. 
+Phenotype and genotype data for *Brassica rapa*: https://www.nature.com/articles/s41467-024-46841-4#Sec24, https://www.nature.com/articles/s41467-024-49383-x#data-availability, (NCBI sequence reads: https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1105729) and https://onlinelibrary.wiley.com/doi/full/10.1111/mec.17811. 
 
 
 # Network analysis
