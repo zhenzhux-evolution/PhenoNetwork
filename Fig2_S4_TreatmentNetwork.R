@@ -7,10 +7,10 @@ library(dplyr)
 library(psych)
 library(igraph)
 
-setwd("~/Downloads/Bioinfo/data_analysis/Network/dataSets/Dorey_2024_NC/2024_NC/NetworkTest/SingleNet")
-output_directory ="/Users/xiaodemon/Documents/demon/UZH/DataSci_UM/network_genomics/Script4Publication/"
+setwd("/home/zhenzhux/pheno")
+output_directory = "/home/zhenzhux/pheno"
+phenotype <- read.table("./Dorey_2024.txt", header = TRUE)
 
-phenotype <- read.table("~/Downloads/Bioinfo/data_analysis/Network/dataSets/Dorey_2024_NC/2024_NC/Dorey_2024.txt", header = TRUE)
 #colnames(phenotype)
 Traits_2024 <- phenotype |>
   select(1:7, 12:21, 27:40, 51:58, 44, 47, 49, 50, 59:64)
@@ -87,16 +87,12 @@ layout_matrix <- matrix(
 )
 
 
-#pdf(file = file.path(output_directory, "all_Trt_networks_BLv.pdf"), 
-#    width = 11, height = 10, bg = "white")
-png(filename = file.path(output_directory, "all_Trt_networks_BLv.png"),
-    width = 11, height = 10, units = "in", res = 300, bg = "white")
+pdf(file = file.path(output_directory, "all_Trt_networks_BLv.pdf"), width = 11, height = 10, bg = "white")
 
 # Set up layout
 layout(layout_matrix)
 par(mar = c(1, 1, 2.5, 1) + 0.1, oma = c(0.5, 0.2, 1, 0.5))
 
-# Define colors
 category_colors <- c("A" = '#FF8B8B', "B" = '#00D7FF', "C" = "#F7FD04", "D" = '#B5FE83')
 
 # Loop through treatments (first one in the center)
@@ -146,26 +142,20 @@ for (i in seq_along(all_treatments)) {
     mtext(subplot_labels[i], side = 3, line = 0, adj = 0, cex = 2, font = 2)
   }
 }
-#subplot_labels
-# Reset layout and close device
 layout(1)
 dev.off()
 
 
 
 
-# with numbers 
-
-#pdf(file = file.path(output_directory, "all_Trt_networks_BLvSeq.pdf"), 
-#    width = 11, height = 10, bg = "white")
-png(filename = file.path(output_directory, "all_Trt_networks_BLvSeq.png"),
-    width = 11, height = 10, units = "in", res = 300, bg = "white")
+# with numbers: FigS4
+pdf(file = file.path(output_directory, "all_Trt_networks_BLvSeq.pdf"), 
+    width = 11, height = 10, bg = "white")
 
 # Set up layout
 layout(layout_matrix)
 par(mar = c(1, 1, 2.5, 1) + 0.1, oma = c(0.5, 0.2, 1, 0.5))
 
-# Define colors
 category_colors <- c("A" = '#FF8B8B', "B" = '#00D7FF', "C" = "#F7FD04", "D" = '#B5FE83')
 
 # Loop through treatments (first one in the center)
@@ -214,8 +204,6 @@ for (i in seq_along(all_treatments)) {
     mtext(subplot_labels[i], side = 3, line = 0, adj = 0, cex = 2, font = 2)
   }
 }
-#subplot_labels
-# Reset layout and close device
 layout(1)
 dev.off()
 

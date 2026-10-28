@@ -6,9 +6,8 @@ library(vegan)
 library(grid)
 
 
-setwd("~/Documents/demon/UZH/DataSci_UM/network_genomics/all_pheno/gwas/PolygScore/")
-out_dir="~/Documents/demon/UZH/DataSci_UM/network_genomics/all_pheno/gwas/PolygScore/"
-out_dir="~/Documents/demon/UZH/DataSci_UM/network_genomics/Script4Publication"
+setwd("/home/zhenzhux/pheno/gwas/PolygScore/")
+out_dir = "/home/zhenzhux/pheno"
 
 
 # make the list from all significant snps for all traits
@@ -90,8 +89,8 @@ obs_diff_mean  # 0.447805
 
 colSums(biMatrix)
 pdf(file = file.path(out_dir, "hist_meandiff_1k.pdf"), width = 3, height = 4, bg = "white")
-png(filename = file.path(out_dir, "hist_meandiff_1k.png"),
-    width = 3, height = 4, units = "in", res = 600) #, bg = "white"
+#png(filename = file.path(out_dir, "hist_meandiff_1k.png"),
+#    width = 3, height = 4, units = "in", res = 600) #, bg = "white"
 hist(null_diff_mean, breaks = 4, main = NA, xlab = "Mean difference", xlim = c(0, 0.5))
 abline(v = mean(obs_diff_mean), col = "blue", lty = 2, lwd = 2)
 dev.off()
@@ -105,8 +104,8 @@ set_order_trait <- sort(set_name(m_pleiotropy))
 
 pdf(file = file.path(out_dir, "intersectPlot_pleiotropy.pdf"), 
     width = 12, height = 8, bg = "white")
-png(filename = file.path(out_dir, "intersectPlot_pleiotropy.png"),
-    width = 18, height = 12, units = "cm", res = 600) #, bg = "white"
+#png(filename = file.path(out_dir, "intersectPlot_pleiotropy.png"),
+#    width = 18, height = 12, units = "cm", res = 600) #, bg = "white"
 ht <- UpSet(
   m_pleiotropy,
   set_order = set_order_trait,

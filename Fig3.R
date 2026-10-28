@@ -9,17 +9,18 @@ library(igraph)
 require(doParallel)
 num_cores <- detectCores()
 doParallel::registerDoParallel(cores = num_cores)
-setwd("~/Downloads/Bioinfo/data_analysis/Network/dataSets/Dorey_2024_NC/2024_NC/NetworkTest/SingleNet")
-output_directory ="/Users/xiaodemon/Documents/demon/UZH/DataSci_UM/network_genomics/Script4Publication/"
 
-phenotype <- read.table("~/Downloads/Bioinfo/data_analysis/Network/dataSets/Dorey_2024_NC/2024_NC/Dorey_2024.txt", header = TRUE)
+setwd("/home/zhenzhux/pheno")
+output_directory = "/home/zhenzhux/pheno"
+phenotype <- read.table("./Dorey_2024.txt", header = TRUE)
+
 
 #colnames(phenotype)
 Traits_2024 <- phenotype |>
   select(1:7, 12:21, 27:40, 51:58, 44, 47, 49, 50, 59:64)
 colnames(Traits_2024[8:49])
 
-AbC_simuModu <- read.table("~/Downloads/Bioinfo/data_analysis/Network/dataSets/Dorey_2024_NC/2024_NC/all_rerun/nmi/Res_202506/edgeSimu_Louvain_gainloss_AbC.txt", header=TRUE)
+AbC_simuModu <- read.table("./edgeSimu_Louvain_gainloss_AbC.txt", header=TRUE)
 
 unique(Traits_2024$Treatment);unique(Traits_2024$Generation)
 
@@ -36,7 +37,7 @@ get_corr_matrix <- function(data) {
   r
 }
 
-# select the best Q and membership through 100 runs of Louvain cluster
+# select the best M and membership through 100 runs of Louvain cluster
 run_best_louvain <- function(graph, n_runs = 100) {
   best_modularity <- -Inf
   best_result <- NULL
@@ -84,7 +85,7 @@ G10_opt <- G10_result$clustering
 G10_Modu_opt <- round(G10_result$modularity,3)
 
 
-# Q simulations
+# M simulations
 G1_upper <- group1_r_bin[upper.tri(group1_r_bin)];sum(G1_upper)
 G10_upper <- group10_r_bin[upper.tri(group10_r_bin)];sum(G10_upper)
 upper_idx <- which(upper.tri(group1_r_bin), arr.ind = TRUE)
@@ -152,78 +153,6 @@ V(simu_graph)$color <- category_colors[V(simu_graph)$category]
 
 
 
-
-png(filename = file.path(output_directory, paste0("G1_AbC", "_Simu.png")),
-    width = 11, height = 11, units = "in", res = 300, bg = "white")
-
-# Adjust plot layout and margins
-par(mfrow = c(2, 2),  # 2x2 grid
-    mar = c(4, 4, 4, 0) + 0.1,  # Margins: bottom, left, top, right
-    oma = c(0, 0, 0.5, 0))  # Outer margins for spacing
-# Plot G1
-set.seed(37) #33, 40
-plot(G1_opt, G1_graph, 
-     mark.col = NA, mark.border = "grey", mark.lwd = 2, 
-     vertex.label = c(1:42), 
-     vertex.size = 15, 
-     vertex.label.cex = 1.05, 
-     vertex.frame.color = V(G1_graph)$color, 
-     vertex.frame.width = 5, 
-     cex.main = 5, 
-     shapes(shape = "circle"))
-title(main = bquote("G1: " * italic(M)== .(G1_Modu_opt)), cex.main = 2, line = 0.5)  
-mtext("A", side = 3, line = 0, adj = 0, cex = 2, font = 2) 
-
-# Plot G10
-plot(G10_opt, G10_graph, 
-     mark.col = NA, mark.border = "grey", mark.lwd = 2,  
-     vertex.label = c(1:42), 
-     vertex.size = 15, 
-     vertex.label.cex = 1.05, 
-     vertex.frame.color = V(G10_graph)$color, 
-     vertex.frame.width = 5,
-     shapes(shape = "circle"))
-title(main = bquote("G10 (AbC): " * italic(M)== .(G10_Modu_opt)), cex.main = 2, line = 0.5)  
-mtext("B", side = 3, line = 0, adj = 0, cex = 2, font = 2)
-
-# Plot simulation
-plot(simu_opt, simu_graph, 
-     mark.col = NA, mark.border = "grey", mark.lwd = 2,  
-     vertex.label = c(1:42), 
-     vertex.size = 15, 
-     vertex.label.cex = 1.05, 
-     vertex.frame.color = V(simu_graph)$color, 
-     vertex.frame.width = 5, 
-     shapes(shape = "circle"))
-title(main = bquote(atop("A simulated PCN at G10: ", italic(M) == .(simu_Modu_opt))), cex.main = 2)  
-mtext("C", side = 3, line = 0, adj = 0, cex = 2, font = 2) 
-
-# Histogram for simulated modularity distribution
-hist(AbC_simuModu$Modu_g2_perm,
-     col = gray.colors(5, alpha = 0.1), # light fill to match node colors
-     border = "black",                  # clean edges
-     main = "Simulated              Oberseved",
-     xlab = bquote(italic(M)),
-     ylab = "Frequency",
-     xlim =c(0.25,0.75),
-     cex.main = 2, font.main=1,                    # match title size from network plot
-     cex.lab = 1.3,                      # axis label size
-     cex.axis = 1.1                      # tick label size
-)
-abline(v = G10_Modu_opt, col = "red", lwd = 2, lty = 2)
-mtext("D", side = 3, line = 0, adj = 0, cex = 2, font = 2)
-
-par(xpd = NA)
-legend(x = 0.04, y = 275,
-       legend = c("Leaf glucosinolate (1-10)", "Floral volatile (11-24)", 
-                  "Floral organ morphology (25-32)", "Non-floral morphology (33-42)"), 
-       col = unique(V(G1_graph)$color), 
-       pch = 21, pt.bg = unique(V(G1_graph)$color), 
-       pt.cex = 2, cex = 1.2, box.lty = 1,
-       title = "Trait category")
-dev.off()
-
-# same for pdf format 
 pdf(file = file.path(output_directory, paste0("G1_AbC", "_Simu.pdf")), 
     width = 11, height = 11, bg = "white")
 par(mfrow = c(2, 2),  # 2x2 grid

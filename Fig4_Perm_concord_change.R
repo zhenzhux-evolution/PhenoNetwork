@@ -259,6 +259,8 @@ abline(v = observed_sum, col = "blue", lty = 2, lwd = 2)
 dev.off()
 
 
+
+
 summary_df <- bind_rows(lapply(names(results), function(trt){
   
   r <- results[[trt]]

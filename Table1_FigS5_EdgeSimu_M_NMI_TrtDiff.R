@@ -11,10 +11,10 @@ require(doParallel)
 num_cores <- detectCores()
 doParallel::registerDoParallel(cores = 20)
 
-setwd("~/Downloads/Bioinfo/data_analysis/Network/dataSets/Dorey_2024_NC/2024_NC/NetworkTest/SingleNet")
-output_directory ="~/Documents/DataSci_UM/network_genomics/Script4Publication/"
+setwd("/home/zhenzhux/pheno")
+output_directory = "/home/zhenzhux/pheno"
+phenotype <- read.table("./Dorey_2024.txt", header = TRUE)
 
-phenotype <- read.table("~/Downloads/Bioinfo/data_analysis/Network/dataSets/Dorey_2024_NC/2024_NC/Dorey_2024.txt", header = TRUE)
 Traits_2024 <- phenotype |>
   select(1:7, 12:21, 27:40, 51:58, 44, 47, 49, 50, 59:64)
 colnames(Traits_2024[8:49])
@@ -23,7 +23,7 @@ head(Traits_2024)
 unique(Traits_2024$Treatment)
 
 # rename treatments
-Traits_2024 <- Traits_2024 |> mutate(Treatment = recode(Treatment, "G1"="G0", 
+Traits_2024 <- Traits_2024 |> mutate(Treatment = recode(Treatment, "G1"="G1", 
                                                         "THB"="ABC",  
                                                         "THH"="aBC",  
                                                         "TNHB"="AbC", 
