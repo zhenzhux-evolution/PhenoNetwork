@@ -1,33 +1,33 @@
 # NetworkEvolution 
 **Zhen-Zhu Xiao** 2026-10-28 17:15:02
 
-## Downloaded data
+### Downloaded data
 Phenotype and genotype data for *Brassica rapa*: https://www.nature.com/articles/s41467-024-46841-4#Sec24, https://www.nature.com/articles/s41467-024-49383-x#data-availability, (NCBI sequence reads: https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1105729) and https://onlinelibrary.wiley.com/doi/full/10.1111/mec.17811. 
 
 
-## Network analysis
+### Network analysis
 
-### For each treatment network, I generate 1,000 random networks by rewiring edges while keeping each node's degree unchanged
+#### For each treatment network, I generate 1,000 random networks by rewiring edges while keeping each node's degree unchanged
 code RandomRewire_M, Fig2_S4_TreatmentNetwork, 
 
 
-### Louvain algorithm and optimal algorith comparison 
+#### Louvain algorithm and optimal algorith comparison 
 I generate 10,000 networks with identical input to observe the distribution of modularity (*M*) with the Louvain algorithm. I found 100 runs of the Louvain algorithm are sufficient for the highest *M*. 
 
 code: FigS3_ModuDistr
 
-### network simulation
+#### network simulation
 Based on the observed edge changes between G1 and G10, I generate a randomized network by rewiring edges while preserving the same number of edges as in the original network.
 
 code: Fig3
 
-### NMI between G1 and G10; NMI between treatment networks
+#### NMI between G1 and G10; NMI between treatment networks
 code: Table1_FigS5_EdgeSimu_M_NMI_TrtDiff
 
 
-## GWAS and PGS estimate
+### GWAS and PGS estimate
 
-### Bioinformatics
+#### Bioinformatics
 After variant call, I did hard filteration: 
     
     vcftools --gzvcf filtered_snps_onlypass.vcf.gz \
@@ -42,7 +42,7 @@ After variant call, I did hard filteration:
     --out snps_filtered
 
 
-### GEMMA 
+#### GEMMA 
 
     # plink convert file format
     vcftools --gzvcf snps_renamed.vcf --plink --out all_snps
@@ -57,14 +57,14 @@ After variant call, I did hard filteration:
 
     code: FigS6_GWAS_Plot.R
 
-- #### Modular pleiotropy plot 
+- ##### Modular pleiotropy plot 
     code Fig4_Pleiotropy.R 
 
-- #### Concordant changes between phenotypic and genetic correlations: 
+- ##### Concordant changes between phenotypic and genetic correlations: 
     code: FigS2_PearsonCorr.R
 
 
-### Polygenic score
+#### Polygenic score
     code: PGS_submit.sh
 
 
