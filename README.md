@@ -55,17 +55,17 @@ After variant call, I did hard filteration:
     gemma -bfile all_snps -gk 1 -o RelatedMatrix_center # generate relateness matrix 
     gemma -bfile all_snps -k RelatedMatrix_center.cXX.txt -n 6 -c ./covariate.cov -lmm 1 -o Trait11_cov
 
-code: FigS6_GWAS_Plot.R
+    code: FigS6_GWAS_Plot.R
 
 - #### Modular pleiotropy plot 
     code Fig4_Pleiotropy.R 
 
 - #### Concordant changes between phenotypic and genetic correlations: 
-code: FigS2_PearsonCorr.R
+    code: FigS2_PearsonCorr.R
 
 
 ### Polygenic score
-code: PGS_submit.sh
+    code: PGS_submit.sh
 
 
 
