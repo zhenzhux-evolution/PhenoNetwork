@@ -9,8 +9,8 @@ library(data.table)
 library(grid)
 library(ggplotify)
 
-setwd("/Users/xiaodemon/Documents/demon/UZH/DataSci_UM/network_genomics/all_pheno")
-out_dir="/Users/xiaodemon/Documents/demon/UZH/DataSci_UM/network_genomics/Script4Publication"
+setwd("/Users/UZH/DataSci_UM/network_genomics/all_pheno")
+out_dir="/Users/UZH/DataSci_UM/network_genomics"
 
 n_traits <- 28
 

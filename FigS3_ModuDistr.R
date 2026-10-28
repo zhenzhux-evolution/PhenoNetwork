@@ -12,16 +12,17 @@ library(patchwork)
 require(doParallel)
 registerDoParallel(cores = 64)
 
-setwd("~/Downloads/Bioinfo/data_analysis/Network/dataSets/Dorey_2024_NC/2024_NC/NetworkTest/SingleNet")
-output_directory ="~/Documents/demon/UZH/DataSci_UM/network_genomics/Script4Publication"
+setwd("/home/zhenzhux/pheno")
+output_directory = "/home/zhenzhux/pheno"
+phenotype <- read.table("./Dorey_2024.txt", header = TRUE)
 
-phenotype <- read.table("~/Downloads/Bioinfo/data_analysis/Network/dataSets/Dorey_2024_NC/2024_NC/Dorey_2024.txt", header = TRUE)
+
 #colnames(phenotype)
 Traits_2024 <- phenotype |>
   select(1:7, 12:21, 27:40, 51:58, 44, 47, 49, 50, 59:64)
 
 Traits_2024 <- Traits_2024 |> mutate(Treatment = recode(Treatment, 
-                                                        "G1"="G0",    
+                                                        "G1"="G1",    
                                                         "THB"="ABC",  
                                                         "THH"="aBC",  
                                                         "TNHB"="AbC", 
@@ -107,9 +108,9 @@ plot_all_modularity <- function(results_df, obs_mod_values) {
   wrap_plots(plots, ncol = 3) + plot_annotation(title = "Optimal modularity distribution")
 }
 
-#pdf(file = file.path(output_directory, "opt_Modu_distribution.pdf"), width = 12, height = 7)
-png(file = file.path(output_directory, "opt_Modu_distribution_100.png"), width = 12, height = 7, 
-    units = "in", res = 300)
+pdf(file = file.path(output_directory, "opt_Modu_distribution.pdf"), width = 12, height = 7)
+#png(file = file.path(output_directory, "opt_Modu_distribution_100.png"), width = 12, height = 7, 
+#    units = "in", res = 300)
 plot <- plot_all_modularity(Trt_results_all, obs_mod_values)
 print(plot)
 dev.off()    

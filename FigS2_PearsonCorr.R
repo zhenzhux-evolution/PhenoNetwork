@@ -10,10 +10,12 @@ library(bestNormalize)
 library(ggplot2)
 library(tidyr)
 
-setwd("~/Downloads/Bioinfo/data_analysis/Network/dataSets/Dorey_2024_NC/2024_NC/NetworkTest/SingleNet")
-output_directory ="~/Documents/DataSci_UM/network_genomics/Script4Publication/"
 
-phenotype <- read.table("~/Downloads/Bioinfo/data_analysis/Network/dataSets/Dorey_2024_NC/2024_NC/Dorey_2024.txt", header = TRUE)
+setwd("/home/zhenzhux/pheno")
+output_directory = "/home/zhenzhux/pheno"
+phenotype <- read.table("./Dorey_2024.txt", header = TRUE)
+
+
 #colnames(phenotype)
 Traits_2024 <- phenotype |>
   select(1:7, 12:21, 27:40, 51:58, 44, 47, 49, 50, 59:64)
@@ -25,7 +27,7 @@ Traits_2024 |>
   summarise(n= n())
 
 Traits_2024 <- Traits_2024 |> mutate(Treatment = recode(Treatment, 
-                                                        "G1"="G0",    
+                                                        "G1"="G1",    
                                                         "THB"="ABC",  
                                                         "THH"="aBC",  
                                                         "TNHB"="AbC", 
@@ -69,7 +71,7 @@ get_corr_matrix <- function(data) {
 }
 
 
-# select the best Q and membership through 100 runs of Louvain cluster
+# select the best M and membership through 100 runs of Louvain cluster
 run_best_louvain <- function(graph, n_runs = 100) {
   best_modularity <- -Inf
   best_result <- NULL
@@ -91,11 +93,7 @@ run_best_louvain <- function(graph, n_runs = 100) {
 }
 
 # Get unique treatments and generations
-
-#all_treatments <- factor(all_treatments, levels = c("G0", "ABC","aBC", "AbC","abC", "ABc", "aBc", "Abc", "abc"))
 all_treatments <- c("G0", "ABC", "aBC", "AbC", "abC", "ABc", "aBc", "Abc", "abc")
-# reoder the sequence make it clockwise 
-#subplot_labels <- c("(e)", "(g)", "(i)","(d)", "(h)", "(c)", "(a)",  "(f)", "(b)")
 subplot_labels <- c("A", "B", "C","D", "E", "F", "G", "H", "I")
 
 layout_matrix <- matrix(
@@ -105,10 +103,8 @@ layout_matrix <- matrix(
   nrow = 3, byrow = TRUE
 )
 # with numbers 
-#pdf(file = file.path(output_directory, "CorrelationTest_Q_Seq.pdf"), 
-#    width = 11, height = 10, bg = "white")
-png(filename = file.path(output_directory, "CorrelationTest_M_Seq.png"),
-    width = 11, height = 10, units = "in", res = 300, bg = "white")
+pdf(file = file.path(output_directory, "CorrelationTest_M_Seq.pdf"), 
+    width = 11, height = 10, bg = "white")
 
 # Set up layout
 layout(layout_matrix)
@@ -137,12 +133,7 @@ for (i in seq_along(all_treatments)) {
     TrtSingle_Louvain <- TrtSingle_result$clustering
     TrtSingle_Modu_Louvain <- round(TrtSingle_result$modularity, 3)
     
-    #optimal approach
-    #TrtSingle_Louvain <- cluster_optimal(TrtSingle_graph) 
-    #TrtSingle_Modu_Louvain <- round(modularity(TrtSingle_Louvain), 3)
-    
-    
-    
+        
     # Set node colors by category
     V(TrtSingle_graph)$category <- c(rep("A", 10), rep("B", 14), rep("C", 8), rep("D", 10))
     V(TrtSingle_graph)$color <- category_colors[V(TrtSingle_graph)$category]
